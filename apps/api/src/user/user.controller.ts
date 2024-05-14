@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 
 import { AuthGuard } from "../guards/auth.guard";
 import { User, UserEntity } from "../user/user.decorators";
@@ -12,6 +12,12 @@ export class UserController {
   @Patch()
   updateInfo(@User() user: UserEntity, @Body() dto: UpdateUserDto) {
     return this.userService.updateUser(user, dto);
+  }
+
+  @UseGuards(AuthGuard)
+  @Get(":username")
+  getUserByUsername(@Param("username") username: string) {
+    return this.userService.getUserByUsername(username);
   }
 
   // 给新用户第一次登录使用

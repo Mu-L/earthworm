@@ -12,3 +12,7 @@ export async function updateUserinfo(data: Partial<UserInfoResponse>) {
 export async function fetchUserSetup(data: { username: string; avatar: string }) {
   return await http.post("/user/setup", data);
 }
+export async function getUserByUsername(username: string) {
+  // `/user/username/${username}` is better ?
+  return await http.get<unknown, any>(`/user/${username}`);
+}

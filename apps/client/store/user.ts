@@ -1,6 +1,8 @@
+import type { MaybeRefOrGetter } from "vue";
+
 import { type UserInfoResponse } from "@logto/vue";
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref, toValue } from "vue";
 
 import { updateUserinfo } from "~/api/user";
 
@@ -10,6 +12,13 @@ export const useUserStore = defineStore("user", () => {
   function initUser(userInfoResponse: UserInfoResponse) {
     userInfo.value = userInfoResponse;
   }
+
+  function isSelf(userId: MaybeRefOrGetter<string>) {
+    return computed(() => {
+      return userInfo.value?.sub === toValue(userId);
+    });
+  }
+
   async function updateUserInfo(userInfo: Partial<UserInfoResponse>) {
     const res = await updateUserinfo(userInfo);
     initUser(res!.data as UserInfoResponse);
@@ -25,5 +34,6 @@ export const useUserStore = defineStore("user", () => {
     initUser,
     userInfo,
     updateUserInfo,
+    isSelf,
   };
 });

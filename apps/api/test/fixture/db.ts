@@ -78,11 +78,12 @@ export async function insertUserCourseProgress(
   coursePackId: string,
   courseId: string,
   statementIndex: number,
+  userId?: string,
 ) {
   const [entity] = await db
     .insert(userCourseProgress)
     .values({
-      userId: getTokenOwner(),
+      userId: userId || getTokenOwner(),
       coursePackId,
       courseId,
       statementIndex,

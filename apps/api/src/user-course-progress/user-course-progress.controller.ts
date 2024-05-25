@@ -12,21 +12,8 @@ import { UserCourseProgressService } from "./user-course-progress.service";
 export class UserProgressController {
   constructor(private readonly userCourseProgressService: UserCourseProgressService) {}
 
-  @UseGuards(AuthGuard)
   @Get("/recent-course-packs")
-  async getUserRecentCoursePacks(@User() user: UserEntity, @Query("limit") limit: number) {
-    const recentCoursePacks = await this.userCourseProgressService.getUserRecentCoursePacks(
-      user.userId,
-      limit || 4,
-    );
-    return recentCoursePacks;
-  }
-
-  @Get("/recent-course-packs-by-user-id")
-  async getUserRecentCoursePacksByUserId(
-    @Query("userId") userId?: string,
-    @Query("limit") limit?: number,
-  ) {
+  async getUserRecentCoursePacks(@Query("userId") userId?: string, @Query("limit") limit?: number) {
     const recentCoursePacks = await this.userCourseProgressService.getUserRecentCoursePacks(
       userId,
       limit || 4,
